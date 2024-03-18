@@ -4,11 +4,10 @@ import pandas as pd
 import pickle
 
 
-# flask app
 app = Flask(__name__)
 
 
-# load databasedataset===================================
+# Loading Relavant Datasets
 sym_des = pd.read_csv("datasets/symtoms_df.csv")
 precautions = pd.read_csv("datasets/precautions_df.csv")
 workout = pd.read_csv("datasets/workout_df.csv")
@@ -16,14 +15,11 @@ description = pd.read_csv("datasets/description.csv")
 medications = pd.read_csv("datasets/medications.csv")
 diets = pd.read_csv("datasets/diets.csv")
 
-
-# load model===========================================
+# Loading pre-trained model
 svc = pickle.load(open("models/svc.pkl", "rb"))
 
 
-# ============================================================
-# custome and helping functions
-# ==========================helper funtions================
+# helper functions to mathc prediction with other datasets
 def helper(dis):
     desc = description[description["Disease"] == dis]["Description"]
     desc = " ".join([w for w in desc])
@@ -231,35 +227,35 @@ def get_predicted_value(patient_symptoms):
     return diseases_list[svc.predict([input_vector])[0]]
 
 
-# creating routes========================================
-
-
 @app.route("/")
 def index():
     return render_template("index.html")
 
 
-# Define a route for the home page
 @app.route("/predict", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
-        symptoms = request.form.get("symptoms").lower()  # Convert to lowercase to match dictionary keys
+        symptoms = request.form.get(
+            "symptoms"
+        ).lower()  # Convert to lowercase to match dictionary keys
         if not symptoms:
             # No input was provided by the user
-            message = "No symptoms were inputted. Please enter symptoms."
+            message = "No symptoms were entered.Please enter symptoms."
             return render_template("index.html", message=message)
-        
+
         # Split the user's input into a list of symptoms (assuming they are comma-separated)
         user_symptoms = [s.strip() for s in symptoms.split(",")]
-        
+
         # Check if all user-entered symptoms match the known symptoms
-        valid_symptoms = [symptom for symptom in user_symptoms if symptom in symptoms_dict]
-        
+        valid_symptoms = [
+            symptom for symptom in user_symptoms if symptom in symptoms_dict
+        ]
+
         if not valid_symptoms:
             # No valid symptoms were entered (or all were misspelled)
             message = "Invalid or misspelled symptoms were entered. Please check your symptoms and try again."
             return render_template("index.html", message=message)
-        
+
         predicted_disease = get_predicted_value(valid_symptoms)
         dis_des, precautions, medications, rec_diet, workout = helper(predicted_disease)
 
@@ -279,25 +275,21 @@ def home():
     return render_template("index.html")
 
 
-# about view funtion and path
 @app.route("/about")
 def about():
     return render_template("about.html")
 
 
-# contact view funtion and path
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
 
 
-# developer view funtion and path
 @app.route("/developer")
 def developer():
     return render_template("developer.html")
 
 
-# about view funtion and path
 @app.route("/blog")
 def blog():
     return render_template("blog.html")
