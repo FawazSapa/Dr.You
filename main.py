@@ -2,6 +2,8 @@ from flask import Flask, request, render_template, jsonify  # Import jsonify
 import numpy as np
 import pandas as pd
 import pickle
+from spellchecker import SpellChecker
+import regex as re
 
 
 app = Flask(__name__)
@@ -38,6 +40,9 @@ def helper(dis):
     wrkout = workout[workout["disease"] == dis]["workout"]
 
     return desc, pre, med, die, wrkout
+
+
+spell = SpellChecker()
 
 
 symptoms_dict = {
@@ -217,6 +222,7 @@ diseases_list = {
     35: "Psoriasis",
     27: "Impetigo",
 }
+spell.word_frequency.load_words(symptoms_dict.keys())
 
 
 # Model Prediction function
@@ -235,25 +241,29 @@ def index():
 @app.route("/predict", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
-        symptoms = request.form.get(
-            "symptoms"
-        ).lower()  # Convert to lowercase to match dictionary keys
-        if not symptoms:
-            # No input was provided by the user
-            message = "No symptoms were entered.Please enter symptoms."
-            return render_template("index.html", message=message)
+        raw_symptoms = request.form.get("symptoms").lower()
 
-        # Split the user's input into a list of symptoms (assuming they are comma-separated)
-        user_symptoms = [s.strip() for s in symptoms.split(",")]
+        # Splitting on multiple delimiters: commas, semicolons, or spaces
+        symptoms_list = re.split(r",|;|\s+", raw_symptoms)
 
-        # Check if all user-entered symptoms match the known symptoms
+        # Removing extra spaces and empty strings
+        symptoms_list = [
+            symptom.strip() for symptom in symptoms_list if symptom.strip()
+        ]
+
+        # Correcting spelling
+        corrected_symptoms = [spell.correction(symptom) for symptom in symptoms_list]
+
+        # Removing duplicates
+        unique_symptoms = list(set(corrected_symptoms))
+
+        # Filter valid symptoms
         valid_symptoms = [
-            symptom for symptom in user_symptoms if symptom in symptoms_dict
+            symptom for symptom in unique_symptoms if symptom in symptoms_dict
         ]
 
         if not valid_symptoms:
-            # No valid symptoms were entered (or all were misspelled)
-            message = "Invalid or misspelled symptoms were entered. Please check your symptoms and try again."
+            message = "Please enter valid symptoms.."
             return render_template("index.html", message=message)
 
         predicted_disease = get_predicted_value(valid_symptoms)

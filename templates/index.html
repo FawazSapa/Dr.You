@@ -10,7 +10,6 @@
 </head>
 
 <style>
-    /* Add this CSS to your existing <style> tag or in a separate CSS file */
     .logo {
         width: 50px;
         height: 50px;
@@ -152,6 +151,9 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container">
+            <img src="{{ url_for('static', filename='pngtree-male-doctor-avatar-icon-illustration-png-image_8537702.png') }}"
+                class="myimg" alt="Doctor Avatar" />
+
             <a class="navbar-brand" href="#">Doctor You</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -233,7 +235,7 @@
         <div class="modal fade" id="diseaseModal" tabindex="-1" aria-labelledby="diseaseModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: #020606; color:white;">
+                    <div class="modal-header" style="background-color: #007bff; color:white;">
                         <!-- Set header background color inline -->
                         <h5 class="modal-title" id="diseaseModalLabel">Predicted Disease</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -252,7 +254,7 @@
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: #020606; color:white;">
+                    <div class="modal-header" style="background-color: #007bff; color:white;">
                         <h5 class="modal-title" id="descriptionModalLabel">Description</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -268,7 +270,7 @@
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: #020606; color:white;">
+                    <div class="modal-header" style="background-color: #007bff; color:white;">
                         <h5 class="modal-title" id="precautionModalLabel">Precaution</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -287,18 +289,19 @@
 
 
         <!-- Medications Modal -->
+        <!-- Medications Modal -->
         <div class="modal fade" id="medicationsModal" tabindex="-1" aria-labelledby="medicationsModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: #020606; color:white;">
+                    <div class="modal-header" style="background-color: #007bff; color:white;">
                         <h5 class="modal-title" id="medicationsModalLabel">Medications</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <ul>
-                            {% for i in medications %}
-                            <li>{{ i }}</li>
+                            {% for medication in medications %}
+                            <li>{{ medication }}</li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -311,7 +314,7 @@
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: #020606; color:white;">
+                    <div class="modal-header" style="background-color: #007bff; color:white;">
                         <h5 class="modal-title" id="workoutsModalLabel">Workouts</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -330,14 +333,14 @@
         <div class="modal fade" id="dietsModal" tabindex="-1" aria-labelledby="dietsModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: #020606; color:white;">
+                    <div class="modal-header" style="background-color: #007bff; color:white;">
                         <h5 class="modal-title" id="dietsModalLabel">Diets</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <ul>
-                            {% for i in my_diet %}
-                            <li>{{ i }}</li>
+                            {% for diet in my_diet %}
+                            <li>{{ diet }}</li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -354,9 +357,9 @@
             startSpeechRecognitionButton.addEventListener('click', startSpeechRecognition);
 
             function startSpeechRecognition() {
-                const recognition = new webkitSpeechRecognition(); // Use webkitSpeechRecognition for compatibility
+                const recognition = new webkitSpeechRecognition();
 
-                recognition.lang = 'en-US'; // Set the language for recognition
+                recognition.lang = 'en-US';
 
                 recognition.onresult = function (event) {
                     const result = event.results[0][0].transcript;
