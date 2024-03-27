@@ -1,4 +1,4 @@
-# Dr. You Medical Recommendation System
+# Dr. You -Health Care Center
 
 ## Overview
 This project implements a medical recommendation system that predicts diseases based on symptoms input by the user. It utilizes Kaggle datasets for training machine learning models, with Support Vector Machine (SVM) identified as the most effective model. The system integrates various datasets including medications, diets, exercises, and disease descriptions to provide comprehensive recommendations to users.
