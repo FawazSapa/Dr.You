@@ -29,7 +29,6 @@ Contributions are welcome! Please fork the repository and create a pull request 
 ![image](https://github.com/FawazSapa/MedicalRecommendationSystem/assets/114939768/3f7c5ed1-c0f8-41e3-becc-568314a13b6e)
 ![image](https://github.com/FawazSapa/MedicalRecommendationSystem/assets/114939768/cee185e7-cbd8-4294-bdd0-bcc9b4de64db)
 ![image](https://github.com/FawazSapa/MedicalRecommendationSystem/assets/114939768/aceb3a14-8a30-4e4c-86b0-decd0fcf0aa4)
-![image](https://github.com/FawazSapa/MedicalRecommendationSystem/assets/114939768/ad743407-924c-44ba-b36e-3d9c250bf6fd)
 
 
 
