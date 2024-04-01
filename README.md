@@ -21,7 +21,7 @@ This project implements a medical recommendation system that predicts diseases b
 ## Contributing
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
 
-##Working
+## Working
 ![image](https://github.com/FawazSapa/MedicalRecommendationSystem/assets/114939768/a45aae59-b953-4155-8b29-b8d93a928e3f)
 
 ![image](https://github.com/FawazSapa/MedicalRecommendationSystem/assets/114939768/df80d629-4ffa-416e-9d00-a2372a0122d9)
