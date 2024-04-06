@@ -7,6 +7,7 @@ This project implements a medical recommendation system that predicts diseases b
 - Python
 - Flask
 - Machine Learning using scikit-learn
+- Automated testing with Selenium
 
 ## Features
 - Predicts diseases from symptoms input by the user
