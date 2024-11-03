@@ -1,0 +1,84 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+
+# Environment variables
+.env
+*.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Flask cache files
+instance/
+*.sqlite3
+*.db
+
+# Pytest and coverage reports
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# PyInstaller
+dist/
+build/
+*.spec
+
+# Data files (Flask)
+datasets/*.csv
+models/*.pkl
+
+# Logs
+logs/
+*.log
+
+# Local IDE configurations
+.vscode/
+.idea/
+
+# MacOS files
+.DS_Store
+
+# Ignore dynamically generated static/media files
+static/
+media/
+
+# Next.js specific files
+.next/
+out/
+node_modules/
+
+# Next.js build output
+build/
+
+# Next.js static files
+*.next/
+*.vercel/
+
+# Ignore Next.js production and cache files
+.next/cache/
+out/
+cache/
+
+# Ignore package lock files
+package-lock.json
+yarn.lock
+.pnpm-lock.yaml
+
+# System files
+Thumbs.db

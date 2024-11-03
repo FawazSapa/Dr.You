@@ -1,15 +1,17 @@
-from flask import Flask, request, render_template, jsonify  # Import jsonify
+from flask import Flask, request, jsonify
 import numpy as np
 import pandas as pd
 import pickle
 from spellchecker import SpellChecker
 import regex as re
+from flask_cors import CORS  # Import CORS
 
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 
-# Loading Relavant Datasets
+# Loading Relevant Datasets
 sym_des = pd.read_csv("datasets/symtoms_df.csv")
 precautions = pd.read_csv("datasets/precautions_df.csv")
 workout = pd.read_csv("datasets/workout_df.csv")
@@ -21,30 +23,32 @@ diets = pd.read_csv("datasets/diets.csv")
 svc = pickle.load(open("models/svc.pkl", "rb"))
 
 
-# helper functions to mathc prediction with other datasets
+# Helper functions to match prediction with other datasets
+# Helper functions to match prediction with other datasets
 def helper(dis):
+    # Convert description to a string
     desc = description[description["Disease"] == dis]["Description"]
-    desc = " ".join([w for w in desc])
+    desc = " ".join(desc.tolist())  # Convert Series to list, then join into a single string
 
+    # Convert precautions to a flat list of strings
     pre = precautions[precautions["Disease"] == dis][
         ["Precaution_1", "Precaution_2", "Precaution_3", "Precaution_4"]
-    ]
-    pre = [col for col in pre.values]
+    ].values.tolist()  # Convert to list of lists
 
-    med = medications[medications["Disease"] == dis]["Medication"]
-    med = [med for med in med.values]
 
-    die = diets[diets["Disease"] == dis]["Diet"]
-    die = [die for die in die.values]
+    # Convert medications to a list
+    med = [str(med).strip("[]").replace("'", "").split(", ") for med in medications[medications["Disease"] == dis]["Medication"].tolist()]
 
-    wrkout = workout[workout["disease"] == dis]["workout"]
+    # Convert diet to a list
+    die = [str(die).strip("[]").replace("'", "").split(", ") for die in diets[diets["Disease"] == dis]["Diet"].tolist()]
 
-    return desc, pre, med, die, wrkout
+    # Convert workout to a list
+    wrkout = workout[workout["disease"] == dis]["workout"].tolist()
+
+    return desc, pre, med[0], die[0], wrkout
 
 
 spell = SpellChecker()
-
-
 symptoms_dict = {
     "itching": 0,
     "skin_rash": 1,
@@ -233,78 +237,61 @@ def get_predicted_value(patient_symptoms):
     return diseases_list[svc.predict([input_vector])[0]]
 
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+@app.route("/predict", methods=["POST"])
+def predict():
+    data = request.get_json()
 
+    # Check if symptoms were provided in the request
+    raw_symptoms = data.get("symptoms", "").strip().lower()
+    if not raw_symptoms:
+        return jsonify({"message": "No symptoms provided. Please enter symptoms to proceed."}), 400
 
-@app.route("/predict", methods=["GET", "POST"])
-def home():
-    if request.method == "POST":
-        raw_symptoms = request.form.get("symptoms").lower()
+    # Splitting on multiple delimiters: commas, semicolons, or spaces
+    symptoms_list = re.split(r",|;|\s+", raw_symptoms)
 
-        # Splitting on multiple delimiters: commas, semicolons, or spaces
-        symptoms_list = re.split(r",|;|\s+", raw_symptoms)
+    # Removing extra spaces and empty strings
+    symptoms_list = [symptom.strip() for symptom in symptoms_list if symptom.strip()]
 
-        # Removing extra spaces and empty strings
-        symptoms_list = [
-            symptom.strip() for symptom in symptoms_list if symptom.strip()
-        ]
+    # Correcting spelling
+    corrected_symptoms = [spell.correction(symptom) for symptom in symptoms_list]
 
-        # Correcting spelling
-        corrected_symptoms = [spell.correction(symptom) for symptom in symptoms_list]
+    # Removing duplicates
+    unique_symptoms = list(set(corrected_symptoms))
 
-        # Removing duplicates
-        unique_symptoms = list(set(corrected_symptoms))
+    # Filter valid symptoms
+    valid_symptoms = [symptom for symptom in unique_symptoms if symptom in symptoms_dict]
 
-        # Filter valid symptoms
-        valid_symptoms = [
-            symptom for symptom in unique_symptoms if symptom in symptoms_dict
-        ]
+    # Check if there are any valid symptoms
+    if not valid_symptoms:
+        return jsonify({"message": "None of the symptoms provided match known symptoms in our database. Please try with some other input again."}), 400
 
-        if not valid_symptoms:
-            message = "Please enter valid symptoms.."
-            return render_template("index.html", message=message)
-
+    # Perform the prediction if valid symptoms are found
+    try:
         predicted_disease = get_predicted_value(valid_symptoms)
         dis_des, precautions, medications, rec_diet, workout = helper(predicted_disease)
 
-        my_precautions = []
-        for i in precautions[0]:
-            my_precautions.append(i)
+        # Ensure precautions, medications, diet, and workout lists are properly formatted
+        my_precautions = [precaution for precaution in precautions[0]] if precautions else ["No specific precautions available."]
+        medications = medications if medications else ["No specific medications available."]
+        rec_diet = rec_diet if rec_diet else ["No specific dietary recommendations available."]
+        workout = workout if workout else ["No specific workout recommendations available."]
 
-        return render_template(
-            "index.html",
-            predicted_disease=predicted_disease,
-            dis_des=dis_des,
-            my_precautions=my_precautions,
-            medications=medications,
-            my_diet=rec_diet,
-            workout=workout,
+        # Returning JSON response
+        return jsonify(
+            {
+                "predicted_disease": predicted_disease,
+                "description": dis_des,
+                "precautions": my_precautions,
+                "medications": medications,
+                "diet": rec_diet,
+                "workout": workout,
+            }
         )
-    return render_template("index.html")
+    except Exception as e:
+        # Handle any unexpected errors during prediction
+        return jsonify({"message": "An error occurred during prediction. Please try again later.", "error": str(e)}), 500
 
 
-@app.route("/about")
-def about():
-    return render_template("about.html")
-
-
-@app.route("/contact")
-def contact():
-    return render_template("contact.html")
-
-
-@app.route("/developer")
-def developer():
-    return render_template("developer.html")
-
-
-@app.route("/blog")
-def blog():
-    return render_template("blog.html")
-
-
+# Run the Flask app
 if __name__ == "__main__":
-
     app.run(debug=True)
