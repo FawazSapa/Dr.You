@@ -38,7 +38,7 @@ export default function Home() {
         return;
       }
   
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/predict`, {
+      const response = await axios.post("https://dryou.onrender.com/predict", {
         symptoms,
       });
       setResult(response.data);
