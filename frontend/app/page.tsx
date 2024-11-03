@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import axios from "axios";
+import { AxiosError } from "axios"; // Import AxiosError for type checking
 
 // Define a type for the API response
 type PredictionResult = {
@@ -33,20 +34,29 @@ export default function Home() {
         return;
       }
 
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/predict`, {
-        symptoms,
-      });
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/predict`,
+        {
+          symptoms,
+        }
+      );
       setResult(response.data);
-    } catch (err: any) {
-      if (axios.isAxiosError(err) && err.response) {
-        // Axios error with a response
-        setError(
-          err.response.data.message ||
-            "An error occurred while fetching the prediction."
-        );
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        // Type guard for AxiosError
+        const axiosError = err as AxiosError;
+
+        if (axiosError.response && axiosError.response.data) {
+          setError(
+            axiosError.response.data.message ||
+              "An error occurred while fetching the prediction."
+          );
+        } else {
+          setError("An error occurred while fetching the prediction.");
+        }
       } else {
-        // Fallback error message
-        setError("An error occurred while fetching the prediction.");
+        // Fallback error message for non-Axios errors
+        setError("An unknown error occurred.");
       }
     }
   };
