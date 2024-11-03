@@ -20,6 +20,16 @@ This project is like having a doctor by your side 24/7 for quick checkups. I dev
 2. **Get Prediction**: Click on "Predict" to receive a possible disease diagnosis along with additional recommendations.
 3. **View Details**: Use buttons to open modals with more information on the predicted disease, medications, precautions, workouts, and diets.
 
+## Demo
+![image](https://github.com/user-attachments/assets/982f482f-8c45-4cc8-9cb4-0bf9794eb18c)
+
+![image](https://github.com/user-attachments/assets/30b983a4-d9a5-4c09-8a55-06141226a1a3)
+
+![image](https://github.com/user-attachments/assets/3e397d2e-7f75-4f90-af79-86d5b8a5064f)
+
+
+
+
 ## Development Setup
 1. Clone this repository.
 2. **Backend Setup**:
