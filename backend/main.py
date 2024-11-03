@@ -295,6 +295,8 @@ def predict():
 # Run the Flask app
 import os
 
+import os
+
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # Use PORT environment variable if available
+    port = int(os.environ.get("PORT", 10000))  # Use PORT environment variable or default to 10000
     app.run(host="0.0.0.0", port=port)
