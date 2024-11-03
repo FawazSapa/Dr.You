@@ -33,7 +33,7 @@ export default function Home() {
         return;
       }
 
-      const response = await axios.post("/predict", {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/predict`, {
         symptoms,
       });
       setResult(response.data);
