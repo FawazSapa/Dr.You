@@ -2,6 +2,8 @@
 
 ## Overview
 This project is like having a doctor by your side 24/7 for quick checkups. I developed a web application using machine learning powered flask backend and next frontend to take symptoms as input and delivers recommendations based on sophisticated model predictions. After testing various models for accuracy like RandomForest, GradientBoosting, KNeighbors, and MultinomialNB, I chose to train the final model using SVC. The system integrates diverse datasets covering medicines, diets, exercises, and disease descriptions to offer comprehensive recommendations tailored to predicted ailments. It’s better than Google telling you that you have cancer for a minor cough.
+
+
 You can view the website [here](https://dr-you.vercel.app/).Please note that the api is deployed on the free tier in Render which delays requests by 50 seconds,so feel free to spam click on that predict button.All good things take time xd.You can always see the demo below.
 
 
@@ -16,7 +18,7 @@ You can view the website [here](https://dr-you.vercel.app/).Please note that the
 
 ## Technologies Used
 - **Frontend**: Next.js for a responsive user interface deployed on Vercel.
-- **Backend**: Flask for API endpoints, hosted externally.
+- **Backend**: Flask for API endpoints, hosted on render.
 - **Machine Learning**: Support Vector Machine (SVM) model trained on a medical dataset for accurate predictions.
 
 ## Features
@@ -48,7 +50,4 @@ You can view the website [here](https://dr-you.vercel.app/).Please note that the
      npm run dev
      ```
 
-## Deployment
-1. **Backend**: Deploy the Flask API on a platform like Render, Railway, or Heroku.
-2. **Frontend**: Deploy the Next.js app on Vercel. Vercel will automatically load `.env.local` configurations.
 
