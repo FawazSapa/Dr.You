@@ -1,37 +1,43 @@
 # Dr. You - A Health Care Center
 
 ## Overview
-This project implements a medical recommendation system that predicts diseases based on symptoms input by the user. It utilizes Kaggle datasets for training machine learning models, with Support Vector Machine (SVM) identified as the most effective model. The system integrates various datasets including medications, diets, exercises, and disease descriptions to provide comprehensive recommendations to users.
+This project is like having a doctor by your side 24/7 for quick checkups. I developed a Flask-powered web application that leverages machine learning to take symptoms as input and delivers recommendations based on sophisticated model predictions. After testing various models for accuracy like RandomForest, GradientBoosting, KNeighbors, and MultinomialNB, I chose to train the final model using SVC. The system integrates diverse datasets covering medicines, diets, exercises, and disease descriptions to offer comprehensive recommendations tailored to predicted ailments. It’s better than Google telling you that you have cancer for a minor cough.
 
 ## Technologies Used
-- Python
-- Flask
-- Machine Learning using scikit-learn
-- Automated testing with Selenium
+- **Frontend**: Next.js for a responsive user interface deployed on Vercel.
+- **Backend**: Flask for API endpoints, hosted externally.
+- **Machine Learning**: Support Vector Machine (SVM) model trained on a medical dataset for accurate predictions.
 
 ## Features
-- Predicts diseases from symptoms input by the user
-- Integrates diverse datasets for comprehensive recommendations
-- Provides personalized recommendations based on sophisticated model predictions
-- Implements a user-friendly web interface using Flask for seamless interaction
+- **Disease Prediction**: Predicts possible diseases from symptoms entered by the user.
+- **Comprehensive Recommendations**: Provides relevant medications, dietary suggestions, precautions, and workout tips.
+- **Error Handling**: Improved error feedback for cases where symptoms are invalid or missing.
+- **Modern UI**: A clean, user-friendly Next.js interface with modals for displaying detailed recommendations.
+- **Real-Time Communication**: Deployed backend accessible via environment-configured API endpoints.
 
 ## Usage
-1. Enter symptoms in the provided input field.
-2. Click the submit button to receive disease recommendations along with associated medications, diets, exercises, and descriptions.
+1. **Enter Symptoms**: Type in symptoms separated by commas (e.g., "itching, cough").
+2. **Get Prediction**: Click on "Predict" to receive a possible disease diagnosis along with additional recommendations.
+3. **View Details**: Use buttons to open modals with more information on the predicted disease, medications, precautions, workouts, and diets.
 
-## Contributing
-Contributions are welcome! Please fork the repository and create a pull request with your changes.
+## Development Setup
+1. Clone this repository.
+2. **Backend Setup**:
+   - Install Python dependencies:
+     ```bash
+     pip install -r requirements.txt
+     ```
+3. **Frontend Setup**:
+   - Install Node.js dependencies:
+     ```bash
+     npm install
+     ```
+   - Run the Next.js frontend locally:
+     ```bash
+     npm run dev
+     ```
 
-## Working
-![image](https://github.com/FawazSapa/MedicalRecommendationSystem/assets/114939768/a45aae59-b953-4155-8b29-b8d93a928e3f)
-
-![image](https://github.com/FawazSapa/MedicalRecommendationSystem/assets/114939768/df80d629-4ffa-416e-9d00-a2372a0122d9)
-
-![image](https://github.com/FawazSapa/MedicalRecommendationSystem/assets/114939768/3f7c5ed1-c0f8-41e3-becc-568314a13b6e)
-![image](https://github.com/FawazSapa/MedicalRecommendationSystem/assets/114939768/cee185e7-cbd8-4294-bdd0-bcc9b4de64db)
-![image](https://github.com/FawazSapa/MedicalRecommendationSystem/assets/114939768/aceb3a14-8a30-4e4c-86b0-decd0fcf0aa4)
-
-
-
-
+## Deployment
+1. **Backend**: Deploy the Flask API on a platform like Render, Railway, or Heroku.
+2. **Frontend**: Deploy the Next.js app on Vercel. Vercel will automatically load `.env.local` configurations.
 
