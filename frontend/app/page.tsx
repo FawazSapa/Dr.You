@@ -17,7 +17,6 @@ interface ErrorResponse {
   message: string;
 }
 
-
 export default function Home() {
   const [symptoms, setSymptoms] = useState<string>("");
   const [result, setResult] = useState<PredictionResult | null>(null);
@@ -32,12 +31,12 @@ export default function Home() {
     try {
       setError(null); // Clear previous error
       setResult(null); // Clear previous result
-  
+
       if (!symptoms.trim()) {
         setError("Please enter symptoms to get a prediction.");
         return;
       }
-  
+
       const response = await axios.post("https://dryou.onrender.com/predict", {
         symptoms,
       });
@@ -45,11 +44,11 @@ export default function Home() {
     } catch (err) {
       if (axios.isAxiosError(err)) {
         const axiosError = err as AxiosError<ErrorResponse>; // Use the ErrorResponse interface here
-  
+
         if (axiosError.response && axiosError.response.data) {
           setError(
             axiosError.response.data.message ||
-            "An error occurred while fetching the prediction."
+              "An error occurred while fetching the prediction."
           );
         } else {
           setError("An error occurred while fetching the prediction.");
@@ -60,7 +59,7 @@ export default function Home() {
       }
     }
   };
-  
+
   return (
     <div style={{ fontFamily: "'Poppins', sans-serif", color: "#333" }}>
       {/* Navbar */}
@@ -92,7 +91,10 @@ export default function Home() {
           <h1 style={{ fontFamily: "'Roboto', sans-serif", fontWeight: "600" }}>
             Welcome to Doctor You
           </h1>
-          <p>Select symptoms and get an AI-driven prediction</p>
+          <p>
+            Note:The backend api is deployed on render, which can delay requests
+            by 50 seconds or more.Please be patient.
+          </p>
         </div>
 
         <div

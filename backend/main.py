@@ -4,7 +4,7 @@ import pandas as pd
 import pickle
 from spellchecker import SpellChecker
 import regex as re
-from flask_cors import CORS  # Import CORS
+from flask_cors import CORS  #  CORS
 
 
 app = Flask(__name__)
