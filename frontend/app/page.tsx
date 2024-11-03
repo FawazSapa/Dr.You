@@ -13,6 +13,10 @@ type PredictionResult = {
   diet: string[];
   workout: string[];
 };
+interface ErrorResponse {
+  message: string;
+}
+
 
 export default function Home() {
   const [symptoms, setSymptoms] = useState<string>("");
@@ -28,28 +32,24 @@ export default function Home() {
     try {
       setError(null); // Clear previous error
       setResult(null); // Clear previous result
-
+  
       if (!symptoms.trim()) {
         setError("Please enter symptoms to get a prediction.");
         return;
       }
-
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/predict`,
-        {
-          symptoms,
-        }
-      );
+  
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/predict`, {
+        symptoms,
+      });
       setResult(response.data);
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        // Type guard for AxiosError
-        const axiosError = err as AxiosError;
-
+        const axiosError = err as AxiosError<ErrorResponse>; // Use the ErrorResponse interface here
+  
         if (axiosError.response && axiosError.response.data) {
           setError(
             axiosError.response.data.message ||
-              "An error occurred while fetching the prediction."
+            "An error occurred while fetching the prediction."
           );
         } else {
           setError("An error occurred while fetching the prediction.");
@@ -60,7 +60,7 @@ export default function Home() {
       }
     }
   };
-
+  
   return (
     <div style={{ fontFamily: "'Poppins', sans-serif", color: "#333" }}>
       {/* Navbar */}
