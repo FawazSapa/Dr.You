@@ -1,7 +1,7 @@
 # Dr. You - A Health Care Center
 
 ## Overview
-This project is like having a doctor by your side 24/7 for quick checkups. I developed a Flask-powered web application that leverages machine learning to take symptoms as input and delivers recommendations based on sophisticated model predictions. After testing various models for accuracy like RandomForest, GradientBoosting, KNeighbors, and MultinomialNB, I chose to train the final model using SVC. The system integrates diverse datasets covering medicines, diets, exercises, and disease descriptions to offer comprehensive recommendations tailored to predicted ailments. It’s better than Google telling you that you have cancer for a minor cough.
+This project is like having a doctor by your side 24/7 for quick checkups. I developed a web application using machine learning powered flask backend and next frontend to take symptoms as input and delivers recommendations based on sophisticated model predictions. After testing various models for accuracy like RandomForest, GradientBoosting, KNeighbors, and MultinomialNB, I chose to train the final model using SVC. The system integrates diverse datasets covering medicines, diets, exercises, and disease descriptions to offer comprehensive recommendations tailored to predicted ailments. It’s better than Google telling you that you have cancer for a minor cough.
 
 ## Technologies Used
 - **Frontend**: Next.js for a responsive user interface deployed on Vercel.
